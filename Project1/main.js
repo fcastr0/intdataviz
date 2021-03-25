@@ -14,7 +14,7 @@ let xAxisGroup;
 let yAxisGroup;
 let tooltip;
 
-// Aplication State
+// Application State
 let state = {
     data: [],
     hover: null,
