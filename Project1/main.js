@@ -37,7 +37,7 @@ d3.csv('../data/nypdclaims.csv', (d) => {
     console.log("LOADED DATE:", data);
     state.data = data;
     init();
-  })
+})
 
 
 
