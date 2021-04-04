@@ -1,8 +1,8 @@
 // Setting our drawing space
-const width = window.innerWidth * 0.95,
-  height = window.innerHeight * 0.90,
-  margin = { top: 20, bottom: 65, left: 60, right: 30 },
-  radius = 2.5; 
+const width = window.innerWidth * 0.85,
+  height = window.innerHeight * 0.80,
+  margin = { top: 20, bottom: 65, left: 70, right: 20 },
+  radius = 3.5; 
 
 const formatBillions = (num) => d3.format(".2s")(num).replace(/G/, 'B')
 const formatDate = d3.timeFormat("%Y")  
@@ -11,14 +11,11 @@ const formatDate = d3.timeFormat("%Y")
 let svg;
 let xScale;
 let yScale;
-let xAxis;
 let yAxis;
 let xAxisGroup;
 let yAxisGroup;
 let tooltip;
-let dots;
 let runningtot;
-let colorScale;
 
 // Application State
 let state = {
@@ -57,14 +54,14 @@ xScale = d3.scaleTime()
   .range([margin.left, width - margin.right])
 
 yScale = d3.scaleLinear()
-  .domain(d3.extent(state.data, d => d.settlementamount)) //may need to make this into a range [0, max]
+  .domain(d3.extent(state.data, d => d.settlementamount)) 
   .range([height - margin.bottom, margin.top])
 
 const xAxis = d3.axisBottom(xScale)
 yAxis = d3.axisLeft(yScale)
   .tickFormat(formatBillions)
 
-colorScale = d3.scaleOrdinal();
+colorScale = d3.scaleOrdinal(d3.schemeSet3) //might need to get rid of this
 
 // Creating SVG
 svg = d3.select("#d3-container")
@@ -93,9 +90,10 @@ yAxisGroup = svg.append("g")
 
 yAxisGroup.append("text")
   .attr("class", 'axis-title')
-  .attr("x", -40)
-  .attr("y", height / 2)
-  .attr("writing-mode", "vertical-lr")
+  // .attr("x", -50)
+  // .attr("y", height / 2)
+  .attr("transform", `translate(${-45}, ${height / 2})rotate(-90)`)
+  // .attr("writing-mode", "vertical-lr")
   .attr("text-anchor", "middle")
   .attr("fill", "black")
   .attr("font-size","13")
@@ -112,7 +110,7 @@ dropdown.selectAll("options")
   .text(d => d)
 
 dropdown.on("change", event => {
-  console.log("DROP DOWN IS CHANGED", event.target.value)
+  console.log("DROP DOWN IS CHANGED TO", event.target.value)
   state.selection = event.target.value
   console.log("NEW STATE", state)
   draw();
@@ -124,11 +122,7 @@ draw();
 function draw() {
 console.log("selected state is:", state.selection)
 const filteredData = state.data
-  //.filter(d => state.selection === d.claimtype) 
-  .filter(d => d.claimtype === state.selection) //makes sure our claim type data matches our dropdown selection
-
-// yScale
-// .domain(d3.extent(filteredData, d => d.settlementamount))
+  .filter(d => state.selection === d.claimtype) 
 
 //The following lines update y axis with selected filter:
 yScale.domain([0, d3.max(filteredData, d => d.settlementamount)]) // resets max value on y axis
@@ -148,7 +142,7 @@ const dots = svg
   .join(
     enter => enter.append("g")
       .attr("class", "dot")
-      .attr("fill", d => colorScale(d.claimtype))
+      .attr("fill", "#581845")
       .attr("transform", d => `translate(${xScale(d.settlementdate)},${yScale(d.settlementamount)})`)
       ,
       update => update
@@ -174,7 +168,10 @@ svg.selectAll("path.line")
   .attr("class", "line")
   .attr("d", d => lineFunction(d))
   .attr("fill", "none")
-  .attr("stroke", d => colorScale(d.claimtype))
+  .attr("stroke", "#581845")
+  .attr("stroke-width", "1.5")
+  .transition()
+  .duration(1000)
 
 const areaPath = d3.area()
   .x(d => xScale(d.settlementdate))
@@ -185,7 +182,7 @@ svg.selectAll(".area")
   .data([filteredData])
   .join("path")
   .attr("class", "area")
-  .attr("fill", d => colorScale(d.claimtype))
+  .attr("fill", "#581845")
   .attr("opacity", .20)
   .transition()
   .duration(1000)
