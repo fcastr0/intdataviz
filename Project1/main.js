@@ -32,10 +32,10 @@ d3.csv('../data/nypdclaims.csv', (d) => {
     claimtype: d.claimtype,
     dateoccured: new Date(d.dateofoccurence),
     dateclaimfiled: new Date(d.dateclaimfiled),
-    borough: d.occurenceborough,
+    borough: d.borough,
     settlementdate: new Date(d.settlementdate),
     //settlementamount: new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(d.settlementamount) This isnt mapping on the graph can we fix it?
-    settlementamount: +d.settlementamount
+    runningtotal: +d.runningtotal
   }
   return formattedObj
 })
@@ -45,8 +45,6 @@ d3.csv('../data/nypdclaims.csv', (d) => {
     init();
 }); 
 
-
-
 function init() {
 // Scales
 xScale = d3.scaleTime()
@@ -54,7 +52,7 @@ xScale = d3.scaleTime()
   .range([margin.left, width - margin.right])
 
 yScale = d3.scaleLinear()
-  .domain(d3.extent(state.data, d => d.settlementamount)) 
+  .domain(d3.extent(state.data, d => d.runningtotal)) 
   .range([height - margin.bottom, margin.top])
 
 const xAxis = d3.axisBottom(xScale)
@@ -80,7 +78,7 @@ xAxisGroup.append("text")
   .attr("y", 45)
   .attr("text-anchor", "middle")
   .attr("fill", "black")
-  .attr("font-size","13")
+  .attr("font-size", "13")
   .text("Settlement Date")
 
 yAxisGroup = svg.append("g")
@@ -125,14 +123,12 @@ const filteredData = state.data
   .filter(d => state.selection === d.claimtype) 
 
 //The following lines update y axis with selected filter:
-yScale.domain([0, d3.max(filteredData, d => d.settlementamount)]) // resets max value on y axis
+yScale.domain([0, d3.max(filteredData, d => d.runningtotal)]) // resets max value on y axis
 // creates animation and pushes updated y axis
 yAxisGroup
   .transition()
   .duration(1000)
   .call(yAxis.scale(yScale))
-
-//const runningtot = d3.cumsum(state.data, d => d.settlementamount) does this work? how can i implement this
 
 //console.log("Filtered Data:", filteredData)
 
@@ -143,12 +139,17 @@ const dots = svg
     enter => enter.append("g")
       .attr("class", "dot")
       .attr("fill", "#581845")
-      .attr("transform", d => `translate(${xScale(d.settlementdate)},${yScale(d.settlementamount)})`)
+      .attr("opacity", ".95")
+      .attr("stroke", "gray")
+      .attr("stroke-width", .25)
+      .attr("transform", d => `translate(${xScale(d.settlementdate)},${yScale(d.runningtotal)})`)
       ,
       update => update
       .call(update => update.transition()
       .duration(1000)
-      .attr("transform", d => `translate(${xScale(d.settlementdate)},${yScale(d.settlementamount)})`))
+      .attr("transform", d => `translate(${xScale(d.settlementdate)},${yScale(d.runningtotal)})`))
+      .attr("stroke", "gray")
+      .attr("stroke-width", .25)
       ,
       exit => exit.remove()
   );
@@ -160,7 +161,7 @@ dots.selectAll("circle")
 
 const lineFunction = d3.line()
   .x(d => xScale(d.settlementdate))
-  .y(d => yScale(d.settlementamount))
+  .y(d => yScale(d.runningtotal))
 
 svg.selectAll("path.line")
   .data([filteredData])
@@ -169,21 +170,21 @@ svg.selectAll("path.line")
   .attr("d", d => lineFunction(d))
   .attr("fill", "none")
   .attr("stroke", "#581845")
-  .attr("stroke-width", "1.5")
+  .attr("stroke-width", "1.25")
   .transition()
   .duration(1000)
 
 const areaPath = d3.area()
   .x(d => xScale(d.settlementdate))
   .y0(yScale(0))
-  .y1(d => yScale(d.settlementamount))
+  .y1(d => yScale(d.runningtotal))
 
 svg.selectAll(".area")
   .data([filteredData])
   .join("path")
   .attr("class", "area")
   .attr("fill", "#581845")
-  .attr("opacity", .20)
+  .attr("opacity", .10)
   .transition()
   .duration(1000)
   .attr("d", d => areaPath(d))
