@@ -2,7 +2,7 @@
 const width = window.innerWidth * 0.85,
   height = window.innerHeight * 0.80,
   margin = { top: 20, bottom: 65, left: 70, right: 20 },
-  radius = 3.5; 
+  radius = 5; 
 
 const formatBillions = (num) => d3.format(".2s")(num).replace(/G/, 'B')
 const formatDate = d3.timeFormat("%Y")  
@@ -26,7 +26,7 @@ let state = {
 };
 
 // Loading data
-d3.csv('../data/nypdclaims.csv', (d) => {
+d3.csv('../data/policeyrtotals.csv', (d) => {
   const formattedObj = {
     claimnumber: d.claimnumber,
     claimtype: d.claimtype,
@@ -35,7 +35,7 @@ d3.csv('../data/nypdclaims.csv', (d) => {
     borough: d.borough,
     settlementdate: new Date(d.settlementdate),
     //settlementamount: new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(d.settlementamount) This isnt mapping on the graph can we fix it?
-    runningtotal: +d.runningtotal
+    runningtotal: +d.yrtotal
   }
   return formattedObj
 })
@@ -66,6 +66,13 @@ svg = d3.select("#d3-container")
   .append("svg")
   .attr("width", width)
   .attr("height", height)
+
+tooltip = d3.select("#d3-container")
+  .append("div") //does this work?
+  .attr("class", "tooltip")
+  .style("position", "absolute")
+  .style("top", 0) 
+  .style("left", 0)
 
 const xAxisGroup = svg.append("g")
   .attr("class", "xAxis")
@@ -118,6 +125,7 @@ draw();
 }
 
 function draw() {
+
 console.log("selected state is:", state.selection)
 const filteredData = state.data
   .filter(d => state.selection === d.claimtype) 
@@ -127,7 +135,7 @@ yScale.domain([0, d3.max(filteredData, d => d.runningtotal)]) // resets max valu
 // creates animation and pushes updated y axis
 yAxisGroup
   .transition()
-  .duration(1000)
+  .duration(750)
   .call(yAxis.scale(yScale))
 
 //console.log("Filtered Data:", filteredData)
@@ -140,26 +148,29 @@ const dots = svg
       .attr("class", "dot")
       .attr("fill", "#581845")
       .attr("opacity", ".95")
-      .attr("stroke", "gray")
-      .attr("stroke-width", .25)
+      .attr("stroke", "black")
+      .attr("stroke-width", 1)
       .attr("transform", d => `translate(${xScale(d.settlementdate)},${yScale(d.runningtotal)})`)
       ,
       update => update
       .call(update => update.transition()
-      .duration(1000)
+      .duration(750)
       .attr("transform", d => `translate(${xScale(d.settlementdate)},${yScale(d.runningtotal)})`))
-      .attr("stroke", "gray")
-      .attr("stroke-width", .25)
       ,
       exit => exit.remove()
-  );
+  ).on('mouseenter', (event, d) => {
+    console.log("EVENT", event, d)
+    tooltip.style("transform", `translate(${xScale(d.settlementdate) + 10}px,${yScale(d.runningtotal) +10}px)`)
+    .text(d.runningtotal)
+  }
+  )
 
 dots.selectAll("circle")
     .data(d => [d])
     .join("circle")
     .attr("r", radius)
-
-const lineFunction = d3.line()
+  
+  const lineFunction = d3.line()
   .x(d => xScale(d.settlementdate))
   .y(d => yScale(d.runningtotal))
 
@@ -170,9 +181,9 @@ svg.selectAll("path.line")
   .attr("d", d => lineFunction(d))
   .attr("fill", "none")
   .attr("stroke", "#581845")
-  .attr("stroke-width", "1.25")
+  .attr("stroke-width", "2")
   .transition()
-  .duration(1000)
+  .duration(750)
 
 const areaPath = d3.area()
   .x(d => xScale(d.settlementdate))
@@ -184,8 +195,8 @@ svg.selectAll(".area")
   .join("path")
   .attr("class", "area")
   .attr("fill", "#581845")
-  .attr("opacity", .10)
+  .attr("opacity", .15)
   .transition()
-  .duration(1000)
+  .duration(750)
   .attr("d", d => areaPath(d))
 }
