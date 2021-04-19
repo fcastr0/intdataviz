@@ -1,3 +1,7 @@
 svg {
     border: palevioletred 2px solid;
 }
+
+#d3-container {
+    position: relative;
+}
