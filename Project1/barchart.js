@@ -4,6 +4,7 @@ let yScaleBar;
 let yAxisBar;
 let xAxisGroupBar;
 let yAxisGroupBar;
+let color;
 
 let stateBar = {
     data: [],
@@ -11,17 +12,17 @@ let stateBar = {
 };
 
 // Loading data
-d3.csv('../data/nypdclaims.csv', (d) => {
+d3.csv('../data/nypdclaimsv2.csv', (d) => {
   const formattedObj = {
     claimnumber: d.claimnumber,
     claimtype: d.claimtype,
     dateoccured: new Date(d.dateofoccurence),
     dateclaimfiled: new Date(d.dateclaimfiled),
-    borough: d.occurenceborough,
+    borough: d.borough,
     settlementdate: new Date(d.settlementdate),
     //settlementamount: new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(d.settlementamount) This isnt mapping on the graph can we fix it?
     settlementamount: +d.settlementamount,
-    runningtotal: +d.runnningtotal
+    boroughcount: +d.boroughcount
   }
   return formattedObj
 })
@@ -33,12 +34,18 @@ d3.csv('../data/nypdclaims.csv', (d) => {
 
 function initBar() {
   //Scales
+
+const color = d3.scaleSequential()
+  .domain([0, d3.max(stateBar.data, d => d.boroughcount)])
+  .interpolator(d3.interpolatePurples)
+
 xScaleBar = d3.scaleBand()
   .domain(stateBar.data.map(d => d.borough))
   .range([margin.left, width - margin.right])
+  .paddingInner(.35)
 
 yScaleBar = d3.scaleLinear()
-  .domain(d3.extent(stateBar.data, d => d.runningtotal))
+  .domain(d3.extent(stateBar.data, d => d.boroughcount))
   .range([height - margin.bottom, margin.top])
   
 const xAxisBar = d3.axisBottom(xScaleBar)
@@ -49,6 +56,15 @@ svgBar = d3.select("#d3barchart")
   .append("svg")
   .attr("width", width)
   .attr("height", height)
+
+svgBar.selectAll("rect")
+  .data(stateBar.data)
+  .join("rect")
+  .attr("width", xScaleBar.bandwidth())
+  .attr("height", d => height - yScaleBar(d.boroughcount) - margin.bottom) // not sure whats going on
+  .attr("x", d => xScaleBar(d.borough))
+  .attr("y", d => yScaleBar(d.boroughcount))
+  .attr("fill", d => color(d.boroughcount))
 
 const xAxisGroupBar = svgBar.append("g")
   .attr("class", "xAxisBar")
@@ -73,8 +89,10 @@ yAxisGroupBar.append("text")
   .attr("class", 'yaxis-titlebar')
   .attr("transform", `translate(${-45}, ${height / 2})rotate(-90)`)
   .attr("text-anchor", "middle")
+  .attr("fill", "black")
   .attr("font-size", "13")
-  .text("Number of Claims Made")
+  .text("Claims Made per Borough")
+
 
   
     
