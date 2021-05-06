@@ -12,16 +12,9 @@ let stateBar = {
 };
 
 // Loading data
-d3.csv('../data/nypdclaimsv2.csv', (d) => {
+d3.csv('../data/nypdboroughclaims.csv', (d) => {
   const formattedObj = {
-    claimnumber: d.claimnumber,
-    claimtype: d.claimtype,
-    dateoccured: new Date(d.dateofoccurence),
-    dateclaimfiled: new Date(d.dateclaimfiled),
     borough: d.borough,
-    settlementdate: new Date(d.settlementdate),
-    //settlementamount: new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(d.settlementamount) This isnt mapping on the graph can we fix it?
-    settlementamount: +d.settlementamount,
     boroughcount: +d.boroughcount
   }
   return formattedObj
@@ -37,15 +30,16 @@ function initBar() {
 
 const color = d3.scaleSequential()
   .domain([0, d3.max(stateBar.data, d => d.boroughcount)])
-  .interpolator(d3.interpolatePurples)
+  .interpolator(d3.interpolateReds)
 
 xScaleBar = d3.scaleBand()
   .domain(stateBar.data.map(d => d.borough))
   .range([margin.left, width - margin.right])
   .paddingInner(.35)
+  .padding(.15)
 
 yScaleBar = d3.scaleLinear()
-  .domain(d3.extent(stateBar.data, d => d.boroughcount))
+  .domain([0, d3.max(stateBar.data, d => d.boroughcount)])
   .range([height - margin.bottom, margin.top])
   
 const xAxisBar = d3.axisBottom(xScaleBar)
@@ -61,10 +55,12 @@ svgBar.selectAll("rect")
   .data(stateBar.data)
   .join("rect")
   .attr("width", xScaleBar.bandwidth())
-  .attr("height", d => height - yScaleBar(d.boroughcount) - margin.bottom) // not sure whats going on
+  .attr("height", d => height -  yScaleBar(d.boroughcount) - margin.bottom) // not sure whats going on
   .attr("x", d => xScaleBar(d.borough))
   .attr("y", d => yScaleBar(d.boroughcount))
   .attr("fill", d => color(d.boroughcount))
+  .attr("stroke", "black")
+  .attr("stroke-width", 1)
 
 const xAxisGroupBar = svgBar.append("g")
   .attr("class", "xAxisBar")
