@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8">
+    <title>Interactive Data Exploratory Project</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <h2>Project will be housed here</h2> 
+    
+    <label for="dropdown">Choose Claim Type:</label>
+    <select id="dropdown" name="dropdown"></select>
+    
+    <div class="linegraphs">
+      <div id="d3-container"></div>
+      <div id="d3-container2"></div>
+    </div>
+
+    <div class="space break"> 
+      <p>The following is a bar chart indicating the amount of claims made</p>
+    </div>
+    
+    <div id="d3barchart"></div>
+    
+    <div class="source">
+      <p>the following was taken from ...</p>
+    </div>
+    
+    <script src="../lib/d3.js"></script>
+    <script src="linegraph.js"></script>
+    <!-- <script src="linegraph1.js"></script> -->
+    <script src="barchart.js"></script>
+  </body>
+</html>
