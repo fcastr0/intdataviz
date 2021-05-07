@@ -1,0 +1,38 @@
+svg {
+    border: palevioletred 2px solid;
+}
+
+#d3-container {
+    position: relative;
+}
+
+.tooltip {
+  pointer-events: none;
+  background-color: white;
+  box-shadow: 0 0 7px gainsboro;
+  padding: .5em;
+  border-radius: 5px;
+}
+
+.tooltip:not(.visible){
+  opacity: 0;
+}
+
+circle:hover {
+  stroke-width: 2.5;
+  fill-opacity: 1;
+  stroke: rgba(144, 18, 228, 0.836);
+  cursor: pointer;
+}
+
+rect:hover {
+  stroke-width: 2.5;
+  fill-opacity: 1;
+  stroke: rgba(144, 18, 228, 0.836);
+  cursor: pointer;
+}
+
+body {
+  background-color: #f7f4e9;
+  font-family: "Georgia", "Helvetica", sans-serif; 
+}
