@@ -1,19 +1,55 @@
 <!DOCTYPE html>
   <head>
     <meta charset="utf-8">
-    <title>Interactive Data Exploratory Project</title>
+    <title>Exploratory Project</title>
     <link rel="stylesheet" href="./style.css">
   </head>
   <body>
-    <h2>Project will be housed here</h2> 
+    <h2>Where Does Most of The Tax Payer Money Go?</h2> 
+    <h4><i>Freddy Castro</i></h4>
+
+    <p>
+      Towards the end of 2020 there have been strides for police reform since news headlines have been bringing police misconduct to the front page. 
+      With the recent civil unrest in the United States and the push to defund police organizations, we can see just how much the New York Police Department 
+      costs the city since all settlements and payouts are taken from the taxpayer’s pocket, which many might not have known. The following project is to 
+      give the reader make informed choices when electing state officials that can bring forth change and allocate reasonable budgets into resources that the city needs. 
+      The following line chart and accompanying bar graph shows which settlement types and boroughs have filed the most claims.
+    </p>
+
+    <p>
+      The following terms is how the city defines each claim:
+      <ul>
+          <li><i>Automobile Accident</i> - Motor vehicle claims include vehicles or other personal property allegedly damaged in accidents with City-owned vehicles. 
+            Included in this claim type are parked cars allegedly hit by City-owned vehicles and vehicles damaged while being towed.</li>
+          <li><i>Peace Officer (Police Action)</i> - Police action claims result from alleged improper police action, such as false arrest or imprisonment, 
+            excessive force or assault, or failure to provide police protection.</li>
+          <li><i>Civil Rights</i> - Civil rights claims involve alleged statutory or constitutional violations, such as discrimination based on sex, race, 
+            religion, disability, sexual orientation, or age. Claims in this category also include alleged constitutional civil rights violations by 
+            law enforcement personnel such as false arrest, malicious prosecution, excessive force, or wrongful incarceration claims litigated under 
+            42 U.S.C. § 1983 in federal court.</li>
+      </ul>
+    </p>
     
+    <p>
+      Filters in the dropdown menu include automobile accidents, police action, and civil rights claims. The main data source includes a plethora of 
+      other police claims, but only the categories with the highest number of payouts were chosen. The data source can be found 
+      <a href="https://github.com/fivethirtyeight/police-settlements/tree/main/new_york_ny">here.</a>
+    </p>
+    
+    <p>The following graph lets us see just how much the police department costs the city when automobile accidents, police action, and civil rights claims are made. 
+      Feel free to hover over a point to get a more in-depth look into the claim settlement amount for that year.
+    </p>
     <label for="dropdown">Choose Claim Type:</label>
     <select id="dropdown" name="dropdown"></select>
     
     <div class="linegraphs">
       <div id="d3-container"></div>
-      <div id="d3-container2"></div>
     </div>
+
+    <p>
+      A trend that would be ideal is one where the cumulative total of claims remains steady or with a slight increase in payouts as the years go by, but 
+      unfortunately that is not the case at the moment. 
+    </p>
 
     <div class="space break"> 
       <p>The following is a bar chart indicating the amount of claims made</p>
@@ -27,7 +63,6 @@
     
     <script src="../lib/d3.js"></script>
     <script src="linegraph.js"></script>
-    <!-- <script src="linegraph1.js"></script> -->
     <script src="barchart.js"></script>
   </body>
 </html>
