@@ -1,8 +1,8 @@
 // Setting our drawing space
-const width = window.innerWidth * 0.85,
-  height = window.innerHeight * 0.80,
+const width = window.innerWidth * 0.50,
+  height = window.innerHeight * 0.65,
   margin = { top: 20, bottom: 65, left: 70, right: 20 },
-  radius = 7; 
+  radius = 6.5; 
 
 const formatBillions = (num) => d3.format(".2s")(num).replace(/G/, 'B')
 const formatDate = d3.timeFormat("%Y")  
@@ -26,11 +26,10 @@ let state = {
 };
 
 // Loading data
-d3.csv('../data/automobile.csv', (d) => {
+d3.csv('../data/automobilenew.csv', (d) => {
   const formattedObj = {
     claimnumber: d.claimnumber,
     claimtype: d.claimtype,
-    dateoccured: new Date(d.dateofoccurence),
     dateclaimfiled: new Date(d.dateclaimfiled),
     settlementdate: new Date(d.settlementdate),
     //settlementamount: new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(d.settlementamount)
@@ -156,35 +155,45 @@ const dots = svg
       ,
       exit => exit.remove()
   ).on("mouseenter", (event, d) => {
-    console.log("EXECUTED", event, d)
-    state.hover = {
-      position: [
-        d.x + (d.x - d.x) / 2,
-        d.y + (d.y - d.y) /2
-      ],
-      name: d.data.runningtotformat
-    }
-    .on("mouseleave", () => {
-      state.hover = null
-    })
+    tooltip
+    .html(
+      `
+      <div>The total amount dispersed for</div>
+      <div>this year is ${d.runningtotformat}</div>
+      `
+    )
+    .classed("visible", true)
+    .style("transform", `translate(${xScale(d.settlementdate) + 10}px,${yScale(d.runningtotal) +10}px)`)
+    
+})
+.on("mouseleave", () => {
+  tooltip
+    .html(
+    ""
+    )
+    .classed("visible", false)
+})
+
     // console.log("EVENT", event, d)
     // tooltip.style("transform", `translate(${xScale(d.settlementdate) + 10}px,${yScale(d.runningtotal) +10}px)`)
     // .text(d.runningtotformat)
-  }
-  )
-if (state.hover) {
-  tooltip
-    .html(
-      `
-      <div>Amount Dispersed: ${state.hover.name}</div>
-      `
-    )
-    .transition()
-    .duration(300)
-    .style("background-color", "#92A8D1")
-    .style("transform", `translate(${state.hover.position[0]}px, ${state.hover.position[1]}px)`)
-}
-tooltip.classed("visible", state.hover)
+    //.text("Amount Dispersed")
+ 
+
+// if (state.hover) {
+//   tooltip
+//     .html(
+//       `
+//       <div>Amount Dispersed: ${state.hover.name}</div>
+//       `
+//     )
+//     .transition()
+//     .duration(300)
+//     .style("background-color", "#92A8D1")
+//     .style("transform", `translate(${state.hover.position[0]}px, ${state.hover.position[1]}px)`)
+// }
+// tooltip.classed("visible", state.hover)
+
 
 dots.selectAll("circle")
     .data(d => [d])
