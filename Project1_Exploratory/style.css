@@ -1,5 +1,5 @@
 svg {
-    border: palevioletred 2px solid;
+    border: palevioletred .75px solid;
 }
 
 #d3-container {
@@ -8,10 +8,11 @@ svg {
 
 .tooltip {
   pointer-events: none;
-  background-color: white;
+  background-color: rgba(33, 167, 12, 0.719);
   box-shadow: 0 0 7px gainsboro;
   padding: .5em;
   border-radius: 5px;
+  opacity: 1;
 }
 
 .tooltip:not(.visible){
