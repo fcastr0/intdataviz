@@ -39,7 +39,7 @@ xScaleBar = d3.scaleBand()
   .padding(.15)
 
 yScaleBar = d3.scaleLinear()
-  .domain([0, d3.max(stateBar.data, d => d.boroughcount)])
+  .domain([0, 13500])
   .range([height - margin.bottom, margin.top])
   
 const xAxisBar = d3.axisBottom(xScaleBar)
