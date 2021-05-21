@@ -1,5 +1,6 @@
 svg {
-    border: palevioletred .75px solid;
+    border: rgb(0, 0, 0) .75px solid;
+    font-family: 'Monserrat' Helvetica;
 }
 
 #d3-container {
@@ -8,7 +9,7 @@ svg {
 
 .tooltip {
   pointer-events: none;
-  background-color: rgba(33, 167, 12, 0.719);
+  background-color: rgba(252, 154, 141, 0.699);
   box-shadow: 0 0 7px gainsboro;
   padding: .5em;
   border-radius: 5px;
@@ -34,6 +35,69 @@ rect:hover {
 }
 
 body {
-  background-color: #f7f4e9;
-  font-family: "Georgia", "Helvetica", sans-serif; 
+  background-color: #fffcf2;
+  font-family: 'Montserrat', sans-serif, "Helvetica"; 
+}
+
+h1, h4 {
+  text-align: center;
+}
+
+.source, .references {
+  font-style: italic;
+  font-size: small;
+}
+
+.grid1 {
+  text-align: center;
+  height: 2fr;
+  margin-left: 5%;
+  margin-right: 5%;
+  line-height: 1.6;
+}
+
+.grid2 {
+  text-align: center;
+  display: block;
+  padding-top: 2.5em;
+} 
+
+.grid3 {
+  text-align: left;
+  margin-right: 200px;
+  margin-left: 200px;
+  line-height: 1.6;  
+}
+
+.grid4 {
+  margin-left: 10%;
+  margin-right: 10%;
+  padding-top: 1em;
+  line-height: 1.6;
+}
+.grid5 {
+  margin-left: 10%;
+  margin-right: 10%;
+  line-height: 1.6;
+}
+
+.grid6 {
+  text-align: center;
+}
+
+.grid7 {
+  margin-left: 10%;
+  margin-right: 10%;
+  line-height: 1.6;
+  
+}
+
+.grid8 {
+  margin-left: 10%;
+  margin-right: 10%;
+  line-height: 1.6;
+}
+
+.grid9 {
+  text-align: center;
 }

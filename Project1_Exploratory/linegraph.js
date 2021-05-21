@@ -1,5 +1,5 @@
 // Setting our drawing space
-const width = window.innerWidth * 0.50,
+const width = window.innerWidth * 0.65,
   height = window.innerHeight * 0.65,
   margin = { top: 20, bottom: 65, left: 70, right: 20 },
   radius = 6.5; 
@@ -8,7 +8,7 @@ const formatBillions = (num) => d3.format(".2s")(num).replace(/G/, 'B')
 const formatDate = d3.timeFormat("%Y")  
 
 // Variables we may need
-let svg;
+let svg; 
 let xScale;
 let yScale;
 let yAxis;
@@ -159,11 +159,11 @@ const dots = svg
     .html(
       `
       <div>The total amount dispersed for</div>
-      <div>this year is ${d.runningtotformat}</div>
+      <div>this year is <b>${d.runningtotformat}<b></div>
       `
     )
     .classed("visible", true)
-    .style("transform", `translate(${xScale(d.settlementdate) + 10}px,${yScale(d.runningtotal) +10}px)`)
+    .style("transform", `translate(${xScale(d.settlementdate)+260}px,${yScale(d.runningtotal)+10}px)`)
     
 })
 .on("mouseleave", () => {

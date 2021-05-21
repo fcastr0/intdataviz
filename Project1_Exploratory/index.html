@@ -1,66 +1,88 @@
 <!DOCTYPE html>
   <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <meta charset="utf-8">
     <title>Exploratory Project</title>
     <link rel="stylesheet" href="./style.css">
   </head>
   <body>
-    <h2>Where Does Most of The Tax Payer Money Go?</h2> 
+    <h1>Where Does Most of The Tax Payer Money Go?</h1>
     <h4><i>Freddy Castro</i></h4>
 
-    <p>
-      Towards the end of 2020 there have been strides for police reform since news headlines have been bringing police misconduct to the front page. 
-      With the recent civil unrest in the United States and the push to defund police organizations, we can see just how much the New York Police Department 
-      costs the city since all settlements and payouts are taken from the taxpayer’s pocket, which many might not have known. The following project is to 
-      give the reader make informed choices when electing state officials that can bring forth change and allocate reasonable budgets into resources that the city needs. 
+<div class="gridtemplate">
+
+    <p class="grid1">
+      Towards the end of 2020 there has been push for police reform since news headlines have been bringing police misconduct to the front page.
+      With the recent civil unrest in the United States and the push to defund police institutions, we can see just how much the New York Police Department
+      costs the city since all settlements and payouts are taken from the taxpayer’s pocket, which many might not have known. The following project is to
+      give the reader make informed choices when electing state officials that can bring forth change and allocate reasonable budgets into resources that the city needs.
       The following line chart and accompanying bar graph shows which settlement types and boroughs have filed the most claims.
     </p>
 
-    <p>
-      The following terms is how the city defines each claim:
-      <ul>
-          <li><i>Automobile Accident</i> - Motor vehicle claims include vehicles or other personal property allegedly damaged in accidents with City-owned vehicles. 
+    <p class="grid2">
+      The following terms are how the city defines each claim:
+    </p>  
+      <ul class="grid3">
+          <li><i><b>Automobile Accident</b></i> - Motor vehicle claims include vehicles or other personal property allegedly damaged in accidents with City-owned vehicles.
             Included in this claim type are parked cars allegedly hit by City-owned vehicles and vehicles damaged while being towed.</li>
-          <li><i>Peace Officer (Police Action)</i> - Police action claims result from alleged improper police action, such as false arrest or imprisonment, 
+          <li><i><b>Peace Officer (Police Action)</b></i> - Police action claims result from alleged improper police action, such as false arrest or imprisonment,
             excessive force or assault, or failure to provide police protection.</li>
-          <li><i>Civil Rights</i> - Civil rights claims involve alleged statutory or constitutional violations, such as discrimination based on sex, race, 
-            religion, disability, sexual orientation, or age. Claims in this category also include alleged constitutional civil rights violations by 
-            law enforcement personnel such as false arrest, malicious prosecution, excessive force, or wrongful incarceration claims litigated under 
+          <li><i><b>Civil Rights</b></i> - Civil rights claims involve alleged statutory or constitutional violations, such as discrimination based on sex, race,
+            religion, disability, sexual orientation, or age. Claims in this category also include alleged constitutional civil rights violations by
+            law enforcement personnel such as false arrest, malicious prosecution, excessive force, or wrongful incarceration claims litigated under
             42 U.S.C. § 1983 in federal court.</li>
       </ul>
-    </p>
-    
-    <p>
-      Filters in the dropdown menu include automobile accidents, police action, and civil rights claims. The main data source includes a plethora of 
-      other police claims, but only the categories with the highest number of payouts were chosen. The data source can be found 
-      <a href="https://github.com/fivethirtyeight/police-settlements/tree/main/new_york_ny">here.</a>
-    </p>
-    
-    <p>The following graph lets us see just how much the police department costs the city when automobile accidents, police action, and civil rights claims are made. 
+      <div></div>
+    <p class="grid4">
+      The data collected contains claims made in New York City from 2010 to the last half of 2019.
+      The filter below in the dropdown menu includes automobile accidents, police action, and civil rights claims. The main data source includes a plethora of
+      other police claims, but only the categories with the highest number of payouts were chosen. Claims outside of the five boroughs were also omitted to 
+      better help visualize the total claim amounts per borough and total settlement payouts. The following graph lets us see just how much the police 
+      department costs the city when automobile accidents, police action, and civil rights claims are made.
       Feel free to hover over a point to get a more in-depth look into the claim settlement amount for that year.
     </p>
-    <label for="dropdown">Choose Claim Type:</label>
-    <select id="dropdown" name="dropdown"></select>
-    
-    <div class="linegraphs">
+
+    <div class="grid6">
+      <label for="dropdown">Choose Claim Type:</label>
+      <select id="dropdown" name="dropdown"></select>
       <div id="d3-container"></div>
     </div>
+  </div>
 
-    <p>
-      A trend that would be ideal is one where the cumulative total of claims remains steady or with a slight increase in payouts as the years go by, but 
-      unfortunately that is not the case at the moment. 
+    <p class="grid7">
+      A trend that would be ideal is one where the cumulative total of claims remains steady or with a slight increase in payouts as the years go by, but
+      unfortunately that is not the case at the moment. Since 2013 there has been a steady rise in claim payouts
+      which is costing New Yorkers too much.
     </p>
 
-    <div class="space break"> 
-      <p>The following is a bar chart indicating the amount of claims made</p>
+    <div class="grid8">
+      <p>The following is a bar chart indicating the amount of claims made per each borough. We can see that the Bronx and Brooklyn 
+        face a disproportionate number of claims filed. These are the summed claims submitted through all categories from 2010 to 2019.</p>
     </div>
-    
-    <div id="d3barchart"></div>
-    
+
+    <div class="grid9">
+      <div id="d3barchart"></div>
+    </div>
+
     <div class="source">
-      <p>the following was taken from ...</p>
+      <p>Data obtained from <a href="https://github.com/fivethirtyeight/police-settlements/tree/main/new_york_ny">FiveThirtyEight's GitHub page.</a></p>
     </div>
-    
+
+    <div class="references">
+      <p><b>References</b></p>
+      <ul>
+        <li><a href="https://abcnews.go.com/US/millions-lawsuit-settlements-hidden-cost-police-misconduct-legal/story?id=70999540">Millions in lawsuit settlements are another hidden cost of police misconduct, 
+          legal experts say</a></li>
+          <li><a href="https://www.nydailynews.com/new-york/ny-stringer-report-nypd-payout-settlement-lawsuits-20190415-2zzm2zkhpna63dtlcr2zks6eoq-story.html">
+          NYC spent $230M on NYPD settlements last year: report</a></li>
+          <li><a href="https://gothamist.com/news/nypd-misconduct-lawsuits-cost-taxpayers-nearly-69-million-last-year">
+          NYPD Misconduct Lawsuits Cost Taxpayers Nearly $69 Million Last Year</a></li>
+          <li><a href="https://comptroller.nyc.gov/wp-content/uploads/documents/Claims-Report-FY-2019.pdf">Claims Report: Fiscal Year 2019</a></li>
+      </ul>
+    </div>
+
+
     <script src="../lib/d3.js"></script>
     <script src="linegraph.js"></script>
     <script src="barchart.js"></script>
