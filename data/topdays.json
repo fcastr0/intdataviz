@@ -1,0 +1,17 @@
+{
+  "name": "topdays",
+  "children": [
+    {
+      "name": "days",
+      "children": [
+          { "name": "Thursday", "value": 384.61, "sqrd": 147924.85, "sqroot": 19.61},
+          { "name": "Friday", "value": 332.68, "sqrd": 110675.98, "sqroot": 18.24},
+          { "name": "Monday", "value": 306.72, "sqrd": 94077.16, "sqroot": 17.51},
+          { "name": "Wednesday", "value": 267.91, "sqrd": 71775.77, "sqroot": 16.37},
+          { "name": "Tuesday", "value": 266.22, "sqrd": 70873.09, "sqroot": 16.32},
+          { "name": "Saturday", "value": 226.97, "sqrd": 51515.38, "sqroot": 15.07},
+          { "name": "Sunday", "value": 201.48, "sqrd": 40594.19, "sqroot": 14.19}
+      ]
+    }
+  ]
+}
