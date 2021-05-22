@@ -9,6 +9,4 @@ the visualizations will help me see if there have been any changes or patterns t
 ## Links
 [Link to exploratory project](https://fcastr0.github.io/intdataviz/Project1_Exploratory/index.html)
 
-<br></br>
-
 [Link to narrative project](https://fcastr0.github.io/intdataviz/Project2_Narrative/index.html)
