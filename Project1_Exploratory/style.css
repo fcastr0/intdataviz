@@ -9,7 +9,7 @@ svg {
 
 .tooltip {
   pointer-events: none;
-  background-color: rgba(252, 154, 141, 0.699);
+  background-color: rgb(252, 154, 141);
   box-shadow: 0 0 7px gainsboro;
   padding: .5em;
   border-radius: 5px;

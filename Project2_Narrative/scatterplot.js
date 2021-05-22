@@ -4,78 +4,59 @@ const width = window.innerWidth * 0.7,
   margin = { top: 20, bottom: 60, left: 60, right: 40 },
   radius = 5;
 
-// these variables allow us to access anything we manipulate in init() but need access to in draw().
-// All these variables are empty before we assign something to them.
 let svg;
 let xScale;
 let yScale;
-let colorScale;
+let tooltip;
+//let colorScale;
 
-/* APPLICATION STATE */
+//application state
 let state = {
-  data: [],
-
+  data: null,
+  hover: null,
+  mousePosition: null
 };
 
-/* LOAD DATA */
-d3.csv("../data/topartistsranked", d3.autoType).then(raw_data => {
-  // + SET YOUR DATA PATH
+//data
+d3.csv("../data/topartistsranked.csv", d3.autoType).then(raw_data => {
   console.log("data", raw_data);
-  // save our data to application state
   state.data = raw_data;
   init();
 });
 
-/* INITIALIZING FUNCTION */
-// this will be run *one time* when the data finishes loading in
 function init() {
-  // + SCALES
+  //SCALES
   xScale = d3.scaleLinear()
-    .domain(d3.extent(state.data, d => d.hoursplayed))
+    .domain(d3.extent(state.data, d => d.hrsplayed))
     .range([margin.left, width - margin.right])
 
   yScale = d3.scaleLinear()
-    .domain(d3.extent(state.data, d => d.personalranking))
+    .domain(d3.extent(state.data, d => d.ranking))
     .range([height - margin.bottom, margin.top])
 
-  // colorScale = d3.scaleOrdinal()
-  //   .domain(["R", "D"])
-  //   .range(["red", "blue", "purple"])
+  //const colorScale = d3.scaleSequential(d3.interpolateOrRd)
+    //.domain([0, d3.max(state.data, d => d.ranking)])
 
-  // + AXES
+  //AXES
   const xAxis = d3.axisBottom(xScale)
+    .ticks(45)
+  
   const yAxis = d3.axisLeft(yScale)
 
-  // + UI ELEMENT SETUP
-  // const selectElement = d3.select("#dropdown") // select drowpdown element from HTML
-  // // add in dropdown options
-  // selectElement
-  //   .selectAll("option")
-  //   .data([ // can do this programmatically also if we want
-  //     { key: "All", label: "All" }, // doesn't exist in data, we're adding this as an extra option
-  //     { key: "R", label: "Republican" },
-  //     { key: "D", label: "Democrat" }])
-  //   .join("option")
-  //   .attr("value", d => d.key) // set the key to the 'value' -- what we will use to FILTER our data later
-  //   .text(d => d.label); // set the label to text -- easier for the user to read than the key
-
-  // // set up our event listener
-  // selectElement.on("change", event => {
-  //   // 'event' holds all the event information that triggered this callback
-  //   console.log("DROPDOWN CALLBACK: new value is", event.target.value);
-  //   // save this new selection to application state
-  //   state.selectedParty = event.target.value
-  //   console.log("NEW STATE:", state);
-  //   draw(); // re-draw the graph based on this new selection
-  // });
-
-  // + CREATE SVG ELEMENT
+  //SVG
   svg = d3.select("#scatterplotsvg")
     .append("svg")
     .attr("width", width)
     .attr("height", height)
+  
+  tooltip = d3.select("#scatterplotsvg")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("position", "absolute")
+    .style("top", 0)
+    .style("left", 0)
 
-  // + CALL AXES
+  // CALL AXES
   const xAxisGroup = svg.append("g")
     .attr("class", 'xAxis')
     .attr("transform", `translate(${0}, ${height - margin.bottom})`) // move to the bottom
@@ -86,68 +67,71 @@ function init() {
     .attr("transform", `translate(${margin.left}, ${0})`) // align with left margin
     .call(yAxis)
 
-  // add labels - xAxis
+  //add labels
   xAxisGroup.append("text")
     .attr("class", 'axis-title')
     .attr("x", width / 2)
-    .attr("y", 40)
+    .attr("y", 50)
     .attr("text-anchor", "middle")
-    .text("Ideology Score 2020")
+    .attr("fill", "black")
+    .attr("font-size", 13)
+    .text("Total Hours Listened")
 
-  // add labels - yAxis
   yAxisGroup.append("text")
     .attr("class", 'axis-title')
-    .attr("x", -40)
-    .attr("y", height / 2)
-    .attr("writing-mode", "vertical-lr")
+    .attr("transform", `translate(${-38}, ${height / 2})rotate(-90)`)
     .attr("text-anchor", "middle")
-    .text("Environmental Score 2020")
+    .attr("fill", "black")
+    .attr("font-size", 13)
+    .text("Personal Rating")
 
-  draw(); // calls the draw function
+  draw(); 
 }
 
-/* DRAW FUNCTION */
-// we call this everytime there is an update to the data/state
 function draw() {
 
   // + FILTER DATA BASED ON STATE
-  const filteredData = state.data
-    .filter(d => state.selectedParty === "All" || state.selectedParty === d.Party)
-
-  const dot = svg
+  const dots = svg
     .selectAll("circle")
-    .data(filteredData, d => d.BioID)
+    .data(state.data)
     .join(
-      // + HANDLE ENTER SELECTION
       enter => enter.append("circle")
         .attr("r", radius)
-        .attr("fill", d => colorScale(d.Party))
-        .attr("cx", 0) // start dots on the left
-        .attr("cy", d => yScale(d.envScore2020))
-        .call(sel => sel.transition()
-          .duration(500)
-          .attr("cx", d => xScale(d.ideologyScore2020)) // transition to correct position
+        .attr("cx", d => xScale(d.hrsplayed)) // start dots on the top
+        .attr("cy", margin.top)
+        .attr("fill", "#ff7f50")
+        .attr("stroke", "black")
+        .attr("stroke-width", .80)
+        .attr("stroke-opacity", .25)
+        .call(enter => enter.transition()
+          .duration(1000)
+          //.delay((d, i) => i * 3)
+          .attr("cy", d => yScale(d.ranking))
         ),
-
-      // + HANDLE UPDATE SELECTION
       update => update
-        .call(sel => sel
-          .transition()
-          .duration(250)
-          .attr("r", radius * 1.5) // increase radius size
-          .transition()
-          .duration(250)
-          .attr("r", radius) // bring it back to original size
-        ),
+        .call(update => update),
 
-      // + HANDLE EXIT SELECTION
       exit => exit
-        .call(sel => sel
-          .attr("opacity", 1)
-          .transition()
-          .duration(500)
-          .attr("opacity", 0)
-          .remove()
-        )
-    );
+        .call(exit => exit)
+        .remove()
+    ).on("mouseenter", (event, d) => {
+      tooltip
+      .html(
+        `
+        <div>I listened to</div>
+        <div><b>${d.artist}</b></div>
+        <div>For a total of ${d.hrsplayedround} hours</div>
+        `
+      )
+      .classed("visible", true)
+      .style("transform", `translate(${xScale(d.hrsplayed)+225}px,${yScale(d.ranking)+660}px)`)
+    })
+    .on("mouseleave", () => {
+      tooltip
+      .html(
+        ""
+      )
+      .classed("visible", false)
+    })
+
 }

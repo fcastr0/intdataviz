@@ -1,15 +1,112 @@
 <!DOCTYPE html>
   <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Farro:wght@300&display=swap" rel="stylesheet">
     <meta charset="utf-8">
-    <title>Interactive Data Visualization Tutorial</title>
+    <title>Narrative Project</title>
     <link rel="stylesheet" href="./style.css">
   </head>
   <body>
-    <h2>Tracking listening history</h2>
-    <div id="scatterplotsvg"> </div>
+    <div class="headerintro">
+      <h2>Tracking My Spotify Listening History</h2> 
+      <h4><i>Freddy Castro</i></h4>
+    </div>
+
+    <div class="intro">
+      <p>Listening to music may be one of my favorite pass times, I listen to songs when I am running errands, riding my bike, and working on my assignments for school. 
+       Since the start of the pandemic, I noticed that I started to listen to more and more music since New Yorkers had to remain at home to self-quarantine because of the coronavirus 
+       pandemic that affected the United States on March 2020. I noticed that I would occasionally leave Spotify open and have it serve as background noise while reading or working out in my room. 
+       The following data was obtained through Spotify’s data request tool, which you may request as well under their “privacy” menu option. 
+      </p>
+      <p>The data spans a years’ worth of listening and 
+       in my particular case spans from April 2020 to April 2021 and contains information such as milliseconds spent listening to songs, your advertisement preferences, search queries, 
+       playlist information, who you follow and who follows you, and much more. The data collected contains the time the pandemic started and will help me visualize which artists I listened
+       to the most in one year and which days I would listen to the most music. I also included a personal rating number to each artist so that I may map out which artists stand out from 
+       the rest when I take into consideration their ranking and hours spent listening to said artist/band. 
+      </p>
+      <p>
+        The following scatter plot is a collection of all the artists I have listened to from April of 2020 to April 2021 and plots the individual artist/band against my personal 
+        rating which spans from 1 to 10. Feel free to hover over a point to get an in depth view.
+        Below is the definition for each rating:
+      </p>
+    </div>
+
+    <div class="ranking">
+      <ul>
+        <li><b>1-3:</b> Artists in this category are ones that I have no emotional connection with and are usually bands that I listen to check to see if I would enjoy them. 
+          They are usually bands that pop up in Spotify’s “Discover Weekly” playlist.
+        </li>
+        <li><b>3-5:</b> Bands placed here are bands that I would occasionally listen to on a whim but again they hold no emotional connection either. I would consider artists 
+          located here as ones that I know of but do not know their entire discography.
+        </li>
+        <li><b>6-8:</b> Artists/bands in this section are ones that I do hold some emotional connection with and would listen to them at least a few times a week. I know their 
+          albums and the name of the artists.
+        </li>
+        <li><b>9-10:</b> Artists in this category are some of my favorite and I would listen to them on a daily basis, or at least more than a few times a week.
+        </li>
+      </ul>
+    </div>
+    
+    <div class="scatterplot">
+      <div id="scatterplotsvg"></div>
+    </div>
+
+    <div class="scatterexplanation">
+      <p>I noticed that there is a big cluster of bands appearing between the 6 and 8 rating, which is expected since bands in this category are ones that I listen to on 
+      a nearly daily basis. There is also a big cluster between the 2 to 4 rating as well but they are a bit difficult to distinguish since I listen to the bands in these 
+      category far less than my top rated bands.
+      </p> 
+    </div>
+
+    <div class="treemapintro">
+      <p>
+        The next visualization is a treemap exploring which days I spent the most time listening to music: 
+      </p>
+    </div>
+
+    <div class="treemap">
+      <div id="treemapsvg"></div>
+    </div>
+
+    <div class="treemapexplanation">
+      <p>
+        I found it very surprising that it was in fact Thursdays and Fridays where I spent the most hours listening to music 
+        because my initial prediction was that it was going to be Saturday and Sunday. As I reflect now, it does make sense for Thursday and Friday to be the 
+        days I listen to the most music since this is when I did not have class and did the bulk of my schoolwork. Spotify also updates their “Release Radar” which is 
+        a playlist that is curated based on your listening habits and is updated with new releases by artists and bands you may know.  Saturdays and Sundays were 
+        usually spent being outside with friends or being occupied with other errands that required me to stay focused. 
+      </p>
+    </div>
+
+    <div class="barchartexplanation">
+      <p>
+        The following bar chart shows my top 20 artists in the last year based on the amount of hours spent listening to them:
+      </p>
+    </div>
+
+    <div class="barchart">
+      <div id="barchartsvg"></div>
+    </div>
+
+    <div class="conclusion">
+      <p>
+        I was genuinely surprised to see JPEGMAFIA take the lead by a big margin over the next top two played artists. I do remember listening to him when 
+        I was working out at home or going out for a bike ride almost every time.  
+      </p>
+      <p>
+        This project definitely helped me better understand my listening habits and I found some bits of information surprising especially when it came 
+        down to which days I spent the most time listening to music. I hope this project encourages others to do the same, perhaps not with music but any other 
+        form of media that is easy to compile and visualize.
+      </p>
+    </div>
+
+    <div class="source">
+      <p>Data taken by request from Spotify under their "Privacy Settings" option.</p>
+    </div>
     
     <script src="../lib/d3.js"></script>
     <script src="scatterplot.js"></script>
-    <p><i>Data taken from</i></p>
+    <script src="treemap.js"></script>
+    <script src="barchart.js"></script>
   </body>
 </html>
