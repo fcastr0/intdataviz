@@ -1,5 +1,5 @@
 # Portfolio For Interactive Data Visualization Spring 2021
-This page contains my narrative and exploratory projects for class 
+This page contains my narrative and exploratory projects for my spring 2021 class at the CUNY Graduate Center 
 
 ## Projects
 The exploratory project contains data that maps out how much the NYPD costs the city from settlement payouts and how it adversely affects the New York taxpayer. The narrative project 
