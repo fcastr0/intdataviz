@@ -7,6 +7,6 @@ contains visualizations from my personal Spotify listening history that spans a 
 the visualizations will help me see if there have been any changes or patterns that may surprise me.
 
 ## Links
-[Link to exploratory project is here](https://fcastr0.github.io/intdataviz/Project1_Exploratory/index.html)
+[Link To Exploratory Project Website Is Here](https://fcastr0.github.io/intdataviz/Project1_Exploratory/index.html)
 
-[Link to narrative project is here](https://fcastr0.github.io/intdataviz/Project2_Narrative/index.html)
+[Link To Narrative Project Website Is Here](https://fcastr0.github.io/intdataviz/Project2_Narrative/index.html)
